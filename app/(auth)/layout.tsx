@@ -40,7 +40,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             width={300}
             height={50}
             className="h-auto w-[300px] lg:w-[350px]"
-            style={{ marginTop: -100, marginBottom: -50}}
           />
         </div>
 
