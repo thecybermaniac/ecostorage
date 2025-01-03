@@ -1,8 +1,8 @@
 import Card from "@/components/Card";
 import Sort from "@/components/Sort";
-import { getFiles } from "@/lib/actions/file.actions";
+import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
 import { getCurrentUser } from "@/lib/actions/user.actions";
-import { getFileTypesParams } from "@/lib/utils";
+import { convertFileSize, getFileTypesParams } from "@/lib/utils";
 import { Models } from "node-appwrite";
 import React from "react";
 
@@ -17,6 +17,8 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
   const currentUser = await getCurrentUser();
 
+  const totalSpace = await getTotalSpaceUsed();
+
   return (
     <div className="page-container">
       <section className="w-full">
@@ -24,7 +26,12 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
         <div className="total-size-section">
           <p className="body-1">
-            Total: <span className="h5">0 MB</span>
+            Total:{" "}
+            <span className="h5">
+              {type === "media"
+                ? convertFileSize(totalSpace.video.size + totalSpace.audio.size)
+                : convertFileSize(totalSpace[type.replace("s", "")].size)}
+            </span>
           </p>
 
           <div className="sort-container">
@@ -37,9 +44,9 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
       {/** Render files */}
       {files.total > 0 ? (
         <section className="file-list">
-            {files.documents.map((file: Models.Document) => (
-                <Card key={file.$id} file={file} currentUser={currentUser} />
-            ))}
+          {files.documents.map((file: Models.Document) => (
+            <Card key={file.$id} file={file} currentUser={currentUser} />
+          ))}
         </section>
       ) : (
         <p className="empty-list">No files uploaded</p>

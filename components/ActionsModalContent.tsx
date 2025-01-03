@@ -11,7 +11,9 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => (
   <div className="file-details-thumbnail">
     <Thumbnail type={file.type} extension={file.extension} url={file.url} />
     <div className="flex flex-col">
-      <p className="subtitle-2 mb-1">{file.name}</p>
+      <p className="subtitle-2 mb-1 break-words whitespace-normal max-w-[250px]">
+        {file.name}
+      </p>
       <FormattedDateTime date={file.$createdAt} className="caption" />
     </div>
   </div>
@@ -51,7 +53,6 @@ export const ShareInput = ({
   onRemove,
   currentUser,
 }: Props) => {
-
   // Filter out the currentUser.email from the file.users array
   const filteredUsers = currentUser
     ? file.users.filter(
