@@ -273,7 +273,7 @@ const Page = ({
             <div key={index}>
               {file.type === "image" && (
                 <>
-                <div className="absolute top-3 bottom-0">
+                <div className="absolute top-3 w-screen bottom-0">
                   <p className="h2 text-light-200">{file.name}</p>
                 </div>
                   <Image
