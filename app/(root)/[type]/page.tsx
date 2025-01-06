@@ -22,6 +22,7 @@ import { actionsDropdownItems } from "@/constants";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import PreviewCarousel from "@/components/PreviewCarousel";
 
 type TotalSpaceKeys = "image" | "document" | "video" | "audio" | "other";
 
@@ -51,6 +52,10 @@ const Page = ({
   const path = usePathname();
   const [submitLoading, setSubmitLoading] = useState(false);
   const { toast } = useToast();
+  const [previewVisible, setPreviewVisible] = useState({
+    visible: false,
+    index: 0,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,99 +168,129 @@ const Page = ({
   }
 
   return (
-    <div className="page-container">
-      <section className="w-full">
-        <h1 className="h1 capitalize">{type || "Files"}</h1>
+    <>
+      <div className="page-container">
+        <section className="w-full">
+          <h1 className="h1 capitalize">{type || "Files"}</h1>
 
-        <div className="total-size-section">
-          <p className="body-1">
-            Total:{" "}
-            <span className="h5">
-              {type === "media"
-                ? convertFileSize(
-                    totalSpace.video?.size + totalSpace.audio?.size
-                  )
-                : convertFileSize(totalSpace[key]?.size || 0)}
-            </span>
-          </p>
-        </div>
-        <div className="flex mt-4 flex-col justify-between sm:flex-row sm:items-center">
-          <div className="flex gap-3 items-center">
-            {selectedFiles.length > 0 &&
-              actionsDropdownItems
-                .filter(
-                  ({ value }) =>
-                    value !== "details" &&
-                    value !== "rename" &&
-                    value !== "share"
-                )
-                .map(({ label, icon, value }) =>
-                  value !== "download" ? (
-                    <Button
-                      key={value}
-                      onClick={handleDeleteAction}
-                      disabled={submitLoading}
-                      className="flex gap-2 items-center justify-center bg-white text-dark-100 hover:bg-gray-200"
-                    >
-                      <Image src={icon} alt={label} width={30} height={50} />
-                      <p className="subtitle-2">
-                        {submitLoading ? "Deleting..." : label}
-                      </p>
-                    </Button>
-                  ) : (
-                    <Button
-                      key={value}
-                      onClick={handleDownloadAction}
-                      className="flex gap-2 items-center justify-center bg-white text-dark-100 hover:bg-gray-200"
-                    >
-                      <Image src={icon} alt={label} width={30} height={50} />
-                      <p className="subtitle-2">{label}</p>
-                    </Button>
-                  )
-                )}
+          <div className="total-size-section">
+            <p className="body-1">
+              Total:{" "}
+              <span className="h5">
+                {type === "media"
+                  ? convertFileSize(
+                      totalSpace.video?.size + totalSpace.audio?.size
+                    )
+                  : convertFileSize(totalSpace[key]?.size || 0)}
+              </span>
+            </p>
           </div>
-          {files.length > 0 && (
+          <div className="flex mt-4 flex-col justify-between sm:flex-row sm:items-center">
             <div className="flex gap-3 items-center">
-              <div className="sort-container">
-                <p className="body-1 hidden sm:block text-light-200">
-                  Sort by:
-                </p>
-                <Sort />
-              </div>
-              <Button
-                className="primary-btn h-10"
-                onClick={() => {
-                  setIsSelected((prev) => !prev);
-                  setSelectedFiles([]);
-                }}
-              >
-                {isSelected
-                  ? `Deselect (${selectedFiles.length}) ✖`
-                  : "Select ✔"}
-              </Button>
+              {selectedFiles.length > 0 &&
+                actionsDropdownItems
+                  .filter(
+                    ({ value }) =>
+                      value !== "details" &&
+                      value !== "rename" &&
+                      value !== "share"
+                  )
+                  .map(({ label, icon, value }) =>
+                    value !== "download" ? (
+                      <Button
+                        key={value}
+                        onClick={handleDeleteAction}
+                        disabled={submitLoading}
+                        className="flex gap-2 items-center justify-center bg-white text-dark-100 hover:bg-gray-200"
+                      >
+                        <Image src={icon} alt={label} width={30} height={50} />
+                        <p className="subtitle-2">
+                          {submitLoading ? "Deleting..." : label}
+                        </p>
+                      </Button>
+                    ) : (
+                      <Button
+                        key={value}
+                        onClick={handleDownloadAction}
+                        className="flex gap-2 items-center justify-center bg-white text-dark-100 hover:bg-gray-200"
+                      >
+                        <Image src={icon} alt={label} width={30} height={50} />
+                        <p className="subtitle-2">{label}</p>
+                      </Button>
+                    )
+                  )}
             </div>
-          )}
-        </div>
-      </section>
-
-      {/** Render files */}
-      {files.length > 0 ? (
-        <section className="file-list">
-          {files.map((file: Models.Document) => (
-            <Card
-              key={file.$id}
-              file={file}
-              currentUser={currentUser}
-              selected={isSelected}
-              selectedFiles={selectedFiles}
-              setSelectedFiles={setSelectedFiles}
-            />
-          ))}
+            {files.length > 0 && (
+              <div className="flex gap-3 items-center">
+                <div className="sort-container">
+                  <p className="body-1 hidden sm:block text-light-200">
+                    Sort by:
+                  </p>
+                  <Sort />
+                </div>
+                <Button
+                  className="primary-btn h-10"
+                  onClick={() => {
+                    setIsSelected((prev) => !prev);
+                    setSelectedFiles([]);
+                  }}
+                >
+                  {isSelected
+                    ? `Deselect (${selectedFiles.length}) ✖`
+                    : "Select ✔"}
+                </Button>
+              </div>
+            )}
+          </div>
         </section>
-      ) : (
-        <p className="empty-list">No files uploaded</p>
+
+        {/** Render files */}
+        {files.length > 0 ? (
+          <section className="file-list">
+            {files.map((file: Models.Document, index) => (
+              <Card
+                key={file.$id}
+                file={file}
+                currentUser={currentUser}
+                selected={isSelected}
+                selectedFiles={selectedFiles}
+                setSelectedFiles={setSelectedFiles}
+                setPreviewVisible={setPreviewVisible}
+                index={index}
+              />
+            ))}
+          </section>
+        ) : (
+          <p className="empty-list">No files uploaded</p>
+        )}
+      </div>
+      {previewVisible.visible && (
+        <PreviewCarousel
+          setPreviewVisible={setPreviewVisible}
+          startIndex={previewVisible.index}
+        >
+          {files.map((file, index) => (
+            <div key={index}>
+              {file.type === "image" && (
+                <>
+                <div className="absolute top-3 bottom-0">
+                  <p className="h2 text-light-200">{file.name}</p>
+                </div>
+                  <Image
+                    key={index}
+                    src={file.url}
+                    alt={file.name}
+                    width={700}
+                    height={800}
+                    className="h-[800px] w-[700px]"
+                  />
+                </>
+              )}
+            </div>
+          ))}
+        </PreviewCarousel>
       )}
-    </div>
+    </>
   );
 };
 

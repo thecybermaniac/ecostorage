@@ -8,32 +8,52 @@ import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
 import ActionDropdown from "./ActionDropdown";
 
+// Define the shape of the state
+type PreviewState = {
+  visible: boolean;
+  index: number;
+};
+
 const Card = ({
   file,
   currentUser,
   selected,
   selectedFiles,
   setSelectedFiles,
+  setPreviewVisible,
+  index,
 }: {
   file: Models.Document;
   currentUser: Models.Document;
   selected: boolean;
   selectedFiles: any[];
   setSelectedFiles: Dispatch<SetStateAction<any[]>>;
+  setPreviewVisible: Dispatch<SetStateAction<PreviewState>>;
+  index: number;
 }) => {
-  const isSelected = selectedFiles.some((selectedFile) => selectedFile.$id === file.$id);
-
+  const isSelected = selectedFiles.some(
+    (selectedFile) => selectedFile.$id === file.$id
+  );
 
   const handleCheckboxChange = () => {
     if (isSelected) {
       // Remove fileId from selectedFiles
       setSelectedFiles((prevSelectedFiles: any[]) =>
-        prevSelectedFiles.filter((selectedFile) => selectedFile.$id !== file.$id)
+        prevSelectedFiles.filter(
+          (selectedFile) => selectedFile.$id !== file.$id
+        )
       );
     } else {
       // Add fileId to selectedFiles
-      setSelectedFiles((prevSelectedFiles: any) => [...prevSelectedFiles, file]);
+      setSelectedFiles((prevSelectedFiles: any) => [
+        ...prevSelectedFiles,
+        file,
+      ]);
     }
+  };
+
+  const handlePreviewForOthers = () => {
+    window.open(file.url, "_blank");
   };
 
   return (
@@ -41,6 +61,17 @@ const Card = ({
       className={`file-card ${
         selected && isSelected ? "border-brand border-2" : ""
       }`}
+      onClick={() => {
+        if (!isSelected && !selected) {
+          if (file.type === "image") {
+            setPreviewVisible({ visible: true, index});
+          } else {
+            handlePreviewForOthers();
+          }
+        } else {
+          handleCheckboxChange();
+        }
+      }}
     >
       <div className="flex justify-between">
         <Thumbnail
@@ -52,7 +83,11 @@ const Card = ({
         />
 
         <div className="flex flex-col items-end justify-between">
-          <ActionDropdown file={file} currentUser={currentUser} />
+          {!selected ? (
+            <ActionDropdown file={file} currentUser={currentUser} />
+          ) : (
+            <div style={{ width: 34, height: 34 }}></div>
+          )}
           <p className="body-1">{convertFileSize(file.size)}</p>
         </div>
       </div>

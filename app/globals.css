@@ -446,4 +446,9 @@
   .thumbnail-image {
     @apply size-full object-cover object-center !important;
   }
+
+  /* chevron nav buttons */
+  .chevron-btn{
+    @apply bg-brand h-[60px] rounded-full hover:bg-brand-100 transition-all button !important;
+  }
 }
