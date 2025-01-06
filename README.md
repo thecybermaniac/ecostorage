@@ -17,8 +17,15 @@ This is a Next.js application built for storing and retrieving all kinds of file
 -   [x] Image previewer
 -   [x] File sorting
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This application was built with [Appwrite](https://appwrite.io) and to make sure it works properly, you need to register on Appwrite to get the necessary keys:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# .env
+NEXT_PUBLIC_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
+NEXT_PUBLIC_APPWRITE_PROJECT=YOUR-APPWRITE-PROJECT-ID
+NEXT_PUBLIC_APPWRITE_DATABASE=YOUR-APPWRITE-DATABASE-ID
+NEXT_PUBLIC_APPWRITE_USERS_COLLECTION=YOUR-APPWRITE-USERS-COLLECTION-ID
+NEXT_PUBLIC_APPWRITE_FILES_COLLECTION=YOUR-APPWRITE-FILES-COLLECTION-ID
+NEXT_PUBLIC_APPWRITE_BUCKET=YOUR-APPWRITE-BUCKET-ID
+NEXT_APPWRITE_KEY=YOUR-APPWRITE-API-KEY
