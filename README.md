@@ -4,14 +4,18 @@ This is a Next.js application built for storing and retrieving all kinds of file
 
 ![EcoStorage](/public/assets/images/thumbnail.png)
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-   [x] OTP authentication for greater file security
+-   [x] File summary dashboard
+-   [x] File uploads, including multiple files at once
+-   [x] Support for all kinds of files
+-   [x] File actions like "rename", "delete", "download", "share" and viewing details
+-   [x] Owner privileges to prevent non-owners from making any changes
+-   [x] Multiple files delete and download handling
+-   [x] Global search
+-   [x] Image previewer
+-   [x] File sorting
 
 ## Deploy on Vercel
 
