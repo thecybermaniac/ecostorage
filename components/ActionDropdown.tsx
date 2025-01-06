@@ -27,6 +27,7 @@ import { Button } from "./ui/button";
 import { deleteFile, renameFile, updateFileUsers } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
+import { useToast } from "@/hooks/use-toast";
 
 const ActionDropdown = ({
   file,
@@ -41,6 +42,7 @@ const ActionDropdown = ({
   const [name, setName] = useState(file.name);
   const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const path = usePathname();
 
@@ -70,6 +72,13 @@ const ActionDropdown = ({
     if (success) closeAllModals();
 
     setIsLoading(false);
+
+    return toast({
+      description: (
+        <p className="body-2 text-white">File {action.value} successful.</p>
+      ),
+      className: "success-toast",
+    });
   };
 
   const handleRemoveUser = async (email: string) => {

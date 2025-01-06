@@ -96,12 +96,13 @@ export const getFiles = async ({
   sort = "$createdAt",
   limit,
 }: GetFilesProps) => {
+
   const { databases } = await createAdminClient();
 
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) return;
 
     const queries = createQueries(currentUser, types, searchText, sort, limit);
 
@@ -197,7 +198,7 @@ export const getTotalSpaceUsed = async () => {
 
   try {
     const currentUser = await getCurrentUser();
-    if (!currentUser) throw new Error("User is not authenticated.");
+    if (!currentUser) return;
 
     const files = await databases.listDocuments(
       appwriteConfig.databaseId,

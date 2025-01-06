@@ -27,7 +27,7 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #fa7275;
+    background: #2E7D32;
   }
 
   /* Remove scrollbar */
@@ -56,6 +56,30 @@
   }
   :root {
     --radius: 0.5rem;
+  }
+  input[type="checkbox"]:checked{
+    background-color: #4CAF50; /* Green background */
+    border-color: #4CAF50;  
+  }
+  input[type="checkbox"] {
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none; /* For Safari */
+    width: 28px; /* Adjust to match w-7 */
+    height: 28px; /* Adjust to match h-7 */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Add a checkmark or other styling when checked */
+  input[type="checkbox"]:checked::before {
+    content: '✔'; /* Checkmark */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Checkmark color */
+    font-size: 16px;
   }
 }
 
@@ -325,6 +349,9 @@
 
   .error-toast {
     @apply bg-red !rounded-[10px] !important;
+  }
+  .success-toast {
+    @apply bg-green !rounded-[10px] !important;
   }
 
   /* Header */

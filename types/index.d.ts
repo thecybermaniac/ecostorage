@@ -74,3 +74,18 @@ declare interface ShareInputProps {
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: (email: string) => void;
 }
+
+declare interface FileCategory  {
+  size: number; // Size in bytes
+  latestDate: string; // ISO date string
+};
+
+declare interface TotalSpaceProps {
+  image: FileCategory;
+  document: FileCategory;
+  video: FileCategory;
+  audio: FileCategory;
+  other: FileCategory;
+  used: number; // Total used space in bytes
+  all: number; // Total available space in bytes
+};
