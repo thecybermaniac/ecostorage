@@ -21,6 +21,7 @@ This is a Next.js application built for storing and retrieving all kinds of file
 
 This application was built with [Appwrite](https://appwrite.io) and to make sure it works properly, you need to register on Appwrite to get the necessary keys:
 
+```ini
 # .env
 NEXT_PUBLIC_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
 NEXT_PUBLIC_APPWRITE_PROJECT=YOUR-APPWRITE-PROJECT-ID
