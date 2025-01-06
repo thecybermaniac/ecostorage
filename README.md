@@ -19,7 +19,7 @@ This is a Next.js application built for storing and retrieving all kinds of file
 
 ## Usage
 
-This application was built with [Appwrite](https://appwrite.io) and to make sure it works properly, you need to register on Appwrite to get the necessary keys:
+This application was built with [Appwrite](https://appwrite.io) and to make sure it works properly, you need to register and create a project on Appwrite to get the necessary keys:
 
 ```ini
 # .env
