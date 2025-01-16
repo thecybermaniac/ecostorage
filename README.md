@@ -1,6 +1,6 @@
 ## EcoStorage
 
-This is a Next.js application built for storing and retrieving all kinds of files.
+This is a Next.js application built for storing and retrieving all kinds of files. Live preview [here](https://ecostorage.vercel.app)
 
 ![EcoStorage](/public/assets/images/thumbnail.png)
 
